@@ -7,6 +7,7 @@
 //
 
 #import "PPSAppDelegate.h"
+#import "AFNetworking.h"
 
 @implementation PPSAppDelegate
 
@@ -16,6 +17,10 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    NSURL *baseURL = [NSURL URLWithString:@"http://www.sohu.com"];
+    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:baseURL];
+    
     return YES;
 }
 

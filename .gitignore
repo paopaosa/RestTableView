@@ -22,3 +22,5 @@ build/
 
 # Backup files
 *~.nib
+# CocoaPods
+Pods
