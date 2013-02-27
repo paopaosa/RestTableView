@@ -8,6 +8,7 @@
 
 #import "PPSAppDelegate.h"
 #import "AFNetworking.h"
+#import <RestKit/RestKit.h>
 
 @implementation PPSAppDelegate
 
@@ -20,7 +21,7 @@
     
     NSURL *baseURL = [NSURL URLWithString:@"http://www.sohu.com"];
     AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:baseURL];
-    
+
     return YES;
 }
 
