@@ -6,9 +6,11 @@
 //  Copyright (c) 2013年 Paopaosa. All rights reserved.
 //
 
+#import <RestKit/RestKit.h>
 #import "PPSAppDelegate.h"
 #import "AFNetworking.h"
-#import <RestKit/RestKit.h>
+#import "EXNewsItem.h"
+#import "EXTableViewViewController.h"
 
 @implementation PPSAppDelegate
 
@@ -17,11 +19,49 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
     
-    NSURL *baseURL = [NSURL URLWithString:@"http://www.sohu.com"];
+    RKLogConfigureByName("RestKit/Network*", RKLogLevelTrace);
+    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
+    
+    NSURL *baseURL = [NSURL URLWithString:@"http://qsyripad.i-creative.cn"];
     AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:baseURL];
-
+    //we want to work with JSON-Data
+    [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];//
+//    [client setParameterEncoding:AFJSONParameterEncoding];
+    
+    
+    // Initialize RestKit
+    RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
+    
+    RKObjectMapping *recMapping = [RKObjectMapping mappingForClass:[EXNewsItem class]];
+    [recMapping addAttributeMappingsFromDictionary:@{
+     @"id": @"newsID",
+     @"pic": @"pic",
+     @"share_text": @"shareText",
+     @"pub_date": @"pubDate",
+     @"title": @"title",
+     @"content": @"content"
+     }];
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:recMapping
+                                                                                       pathPattern:nil
+                                                                                           keyPath:@"list"
+                                                                                       statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    [objectManager addResponseDescriptor:responseDescriptor];
+    
+    
+//    NSURL *URL = [NSURL URLWithString:@"http://qsyripad.i-creative.cn/process.php?action=news_list"];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+//    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
+//    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+//        RKLogInfo(@"Load collection of Articles: %@", mappingResult.array);
+//    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+//        RKLogError(@"Operation failed with error: %@", error);
+//    }];
+    
+//    [objectRequestOperation start];
+    EXTableViewViewController *sampleTableViewController = [[EXTableViewViewController alloc] initWithNibName:@"EXTableViewViewController" bundle:nil];
+    self.window.rootViewController = sampleTableViewController;
+     [self.window makeKeyAndVisible];
     return YES;
 }
 
