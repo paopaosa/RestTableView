@@ -11,6 +11,7 @@
 #import "AFNetworking.h"
 #import "EXNewsItem.h"
 #import "EXTableViewViewController.h"
+#import "SDURLCache.h"
 
 @implementation PPSAppDelegate
 
@@ -23,12 +24,17 @@
     RKLogConfigureByName("RestKit/Network*", RKLogLevelTrace);
     RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
     
+    SDURLCache *URLCache = [[SDURLCache alloc] initWithMemoryCapacity:1024*1024*2
+                                                         diskCapacity:1024*1024*20
+                                                             diskPath:[SDURLCache defaultCachePath]];
+    [NSURLCache setSharedURLCache:URLCache];
+    
+//    [RKMIMETypeSerialization registerClass: forMIMEType:@"text/html"];
+    
     NSURL *baseURL = [NSURL URLWithString:@"http://qsyripad.i-creative.cn"];
     AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:baseURL];
     //we want to work with JSON-Data
     [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];//
-//    [client setParameterEncoding:AFJSONParameterEncoding];
-    
     
     // Initialize RestKit
     RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];

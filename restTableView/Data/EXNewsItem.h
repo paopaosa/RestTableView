@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface EXNewsItem : NSObject
+@interface EXNewsItem : NSObject <NSCoding>
 
 @property (nonatomic,copy) NSString *newsID;
 @property (nonatomic,copy) NSString *pic;

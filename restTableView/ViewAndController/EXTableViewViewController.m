@@ -7,6 +7,7 @@
 //
 
 #import "EXTableViewViewController.h"
+#import "MFCache.h"
 
 @interface EXTableViewViewController ()
 
@@ -35,13 +36,14 @@
     // Load the object model via RestKit
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     
-    [objectManager getObjectsAtPath:@"/process.php?action=news_list"
-                         parameters:nil
+    [objectManager getObjectsAtPath:@"/process.php"//action=news_list
+                         parameters:@{@"action": @"news_list"}
                             success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                 NSArray* lists = [[mappingResult dictionary] objectForKey:@"list"];
-//                                NSLog(@"Loaded lists: %@", lists);
                                 NSLog(@"dict:%@", [mappingResult dictionary]);
                                 _lists = lists;
+                                [MFCache setValue:lists forKey:@"newsLists"];
+                                
                                 if(self.isViewLoaded)
                                     [self.tableView reloadData];
                             }
@@ -52,7 +54,11 @@
                                                                       cancelButtonTitle:@"OK"
                                                                       otherButtonTitles:nil];
                                 [alert show];
-                                NSLog(@"Hit error: %@", error);
+;
+                                _lists = (NSArray *)[MFCache valueForKey:@"newsLists"];
+                                NSLog(@"_lists:%@",_lists);
+                                if(self.isViewLoaded)
+                                    [self.tableView reloadData];
                             }];
     
 }
@@ -82,11 +88,11 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     // Configure the cell...
-    cell.textLabel.text = [[_lists objectAtIndex:indexPath.row] title];
+    cell.detailTextLabel.text = [[_lists objectAtIndex:indexPath.row] title];
     return cell;
 }
 

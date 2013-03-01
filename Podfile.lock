@@ -1,6 +1,7 @@
 
 PODS:
 - AFNetworking (1.1.0)
+- MFCache (0.0.1)
 - RestKit (0.20.0rc1):
   - RestKit/Core (= 0.20.0rc1)
 - RestKit/Core (0.20.0rc1):
@@ -19,11 +20,13 @@ PODS:
 - SOCKit (1.1)
 
 DEPENDENCIES:
+- MFCache
 - RestKit (~> 0.20.0pre)
 - SDURLCache (~> 1.2)
 
 SPEC CHECKSUMS:
   AFNetworking: 761a418233d280c1e0580bcb76ff9cb4c3073d17
+  MFCache: 3d44b3971d7a72831554d824b596dcc3845adacf
   RestKit: 0382132969d823a872b377c1ab2e383f3c74a339
   RestKit/Core: 0382132969d823a872b377c1ab2e383f3c74a339
   RestKit/CoreData: 0382132969d823a872b377c1ab2e383f3c74a339
