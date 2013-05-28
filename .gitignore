@@ -24,3 +24,4 @@ build/
 *~.nib
 # CocoaPods
 Pods
+Podfile.lock
