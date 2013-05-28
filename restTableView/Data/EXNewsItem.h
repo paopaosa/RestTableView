@@ -6,9 +6,9 @@
 //  Copyright (c) 2013年 Paopaosa. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "RKNSJSONSerialization.h"
 
-@interface EXNewsItem : NSObject <NSCoding>
+@interface EXNewsItem : RKNSJSONSerialization <NSCoding>
 
 @property (nonatomic,copy) NSString *newsID;
 @property (nonatomic,copy) NSString *pic;

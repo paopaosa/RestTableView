@@ -54,7 +54,6 @@
                                                                       cancelButtonTitle:@"OK"
                                                                       otherButtonTitles:nil];
                                 [alert show];
-;
                                 _lists = (NSArray *)[MFCache valueForKey:@"newsLists"];
                                 NSLog(@"_lists:%@",_lists);
                                 if(self.isViewLoaded)

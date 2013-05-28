@@ -29,12 +29,19 @@
                                                              diskPath:[SDURLCache defaultCachePath]];
     [NSURLCache setSharedURLCache:URLCache];
     
-//    [RKMIMETypeSerialization registerClass: forMIMEType:@"text/html"];
+    /******************************************************************
+     * 2013-3-1 下午4:49
+     * Funcation: register EXNewsItem as json;
+     * Usage: EXNewsItem里实现了RKSerialization协议,以保证JSON数据正确初始化
+     *
+     ******************************************************************/
+    
+    [RKMIMETypeSerialization registerClass:[EXNewsItem class] forMIMEType:@"text/html"];
     
     NSURL *baseURL = [NSURL URLWithString:@"http://qsyripad.i-creative.cn"];
     AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:baseURL];
     //we want to work with JSON-Data
-    [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];//
+//    [client setDefaultHeader:@"Accept" value:@"text/html"];//RKMIMETypeJSON
     
     // Initialize RestKit
     RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
@@ -65,6 +72,15 @@
 //    }];
     
 //    [objectRequestOperation start];
+    
+    EXNewsItem *category = [EXNewsItem new];
+    category.title = @"titleName";
+    category.newsID = @"1";
+    
+    NSString *path = RKPathFromPatternWithObject(@"/categories/:title/articles/:newsID/comments/", category);
+    NSLog(@"The path is %@", path); // prints /categories/RestKit/articles/12345
+    
+    
     EXTableViewViewController *sampleTableViewController = [[EXTableViewViewController alloc] initWithNibName:@"EXTableViewViewController" bundle:nil];
     self.window.rootViewController = sampleTableViewController;
      [self.window makeKeyAndVisible];
